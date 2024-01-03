@@ -1,0 +1,27 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Diem{% endblock %}
+
+{% block content %}
+<h1 style="color:Orange" class="text-center">Danh sách lớp</h1>
+
+    {% for khoi, lop_list in danh_sach_lop.items() %}
+        <h2 style="color:red"> Khối {{ khoi }}</h2>
+
+        {% for lop in lop_list %}
+            <div>
+                <h3 style="color:black">{{ lop.TenLop }}</h3>
+                <p style="color:black">Sĩ số:   {{ lop.soluong }}/{{ loop.length }} </p>
+                <ul>
+                    {% for hocsinh in lop.hocsinhs %}
+                        <li style="color:black">{{ hocsinh.ten }}--{{ hocsinh.ngaysinh }} --{{ hocsinh.gioitinh }}--{{ hocsinh.diachi }} </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+        <hr style="color: black;  height: 20px; ">
+    {% endfor %}
+
+<a style="color: black; text-decoration: none; display: inline-block; padding: 10px 20px; background-color: red; border-radius: 5px; cursor: pointer;" href="{{ url_for('them_hoc_sinh') }}">Thêm học sinh</a>
+
+{% endblock %}

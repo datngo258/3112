@@ -1,0 +1,44 @@
+{% extends 'layout/base.html' %}
+{% block title %}Dieu chinh danh sach{% endblock %}
+{% block content %}
+{% if msg %}
+    <p style="color:red" >{{ msg }}</p>
+{% endif %}
+<h1 style="color:red" class="text-center">Tiếp Nhận Học Sinh</h1>
+<form method="post" action={{url_for('them_hoc_sinh')}} style="background-color: pink;color:black">
+    <div class="form-group">
+        <label for="name">
+            Ho ten:
+        </label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+        <label for="email">
+            Ngày sinh:
+        </label>
+        <input type="date" class="form-control" id="email" name="ngaysinh" required>
+    </div>
+    <div class="form-group">
+        <label for="gioitinh">Giới tính:</label>
+        <select id="gioitinh" name="gioitinh">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Diachi">
+            Địa chỉ:
+        </label>
+        <input type="text" class="form-control" id="Diachi" name="Diachi" required>
+    </div>
+    <div class="form-group">
+        <label for="emaill">
+            Email:
+        </label>
+        <input type="email" class="form-control" id="emaill" name="email" required>
+    </div>
+    <br>
+    <input type="submit" value="Dang Ky" class="btn btn-danger">
+    <br><br>
+</form>
+{% endblock %}

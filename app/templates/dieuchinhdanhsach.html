@@ -1,0 +1,57 @@
+{% extends 'layout/base.html' %}
+
+
+{% block title %}Đây là điều chỉnh danh sách{% endblock %}
+
+{% block content %}
+<form>
+    <input style="background-color: #ccc" class="form-control mr-sm-2" type="text" name="keyword"
+           placeholder="Nhập tên học sinh .....">
+    <button class="btn btn-success" type="submit">Tìm Kiếm</button>
+</form>
+{% if hocsinhs %}
+<h1 style="color:red"> Danh sách học sinh</h1>
+<ul>
+    {% for hocsinh in hocsinhs %}
+
+    <li style="color:black">ID:{{ hocsinh.id }} -- {{ hocsinh.ten.upper() }} -- {{ hocsinh.lophoc.khoi.ten }}/{{
+        hocsinh.lophoc.TenLop }}
+    </li>
+
+    {% endfor %}
+</ul>
+{% else %}
+<p style="color:red"> Danh sách trống.</p>
+{%endif%}
+<h1 style="color:red"> Danh sách các lớp học còn trống</h1>
+{% if lops %}
+{% for lop in lops %}
+<li style="color:black">ID:{{lop.ID_lophoc }} -- {{lop.khoi.ten }} / {{lop.TenLop}}</li>
+{% endfor %}
+{% else %}
+<p style="color:red"> Danh sách trống.</p>
+{% endif %}
+<hr>
+<hr>
+{% if tb %}
+    <h4 style="color:red" >{{ tb }}</h4>
+{% endif %}
+<form method="post" action={{url_for('dieuChinhDanhSach')}} style="background-color: pink;color:black">
+    <div class="form-group">
+        <label for="name">
+            ID học sinh
+        </label>
+        <input type="number" class="form-control" id="name" name="id_hs" required>
+    </div>
+    <div class="form-group">
+        <label for="email">
+            ID lớp muốn đổi
+        </label>
+        <input type="number" class="form-control" id="email" name="id_LopHoc" required>
+    </div>
+    <br>
+    <input type="submit" value="Thay đổi" class="btn btn-danger">
+    <br><br>
+</form>
+
+{% endblock %}
