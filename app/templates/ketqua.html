@@ -1,0 +1,34 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+
+<h1>Báo Cáo Tổng Kết Môn Học</h1>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Học Tập</title>
+</head>
+<body>
+    <h1>Kết Quả Học Tập</h1>
+
+    {% for hocsinh in diem %}
+        <h2>{{ hocsinh.id_hocsinh.ten }} - Lớp {{ hocsinh.id_lophoc.ten_lop }}</h2>
+        <p>Điểm 15 phút: {{ hocsinh.diem_15phut }}</p>
+        <p>Điểm 1 tiết: {{ hocsinh.diem_1tiet }}</p>
+        <p>Điểm cuối kì: {{ hocsinh.diem_ck }}</p>
+        <p>Điểm Trung Bình Môn: {{ hocsinh.diem_trung_binh_mon }}</p>
+        <hr>
+    {% endfor %}
+</body>
+</html>
+
+
+
+{% endblock %}

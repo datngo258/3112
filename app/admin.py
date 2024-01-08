@@ -1,7 +1,7 @@
 from flask_admin import Admin
 from app import app, db
 from flask_admin.contrib.sqla import ModelView
-from app.models import HocSinh,UserRole, User, LopHoc, Khoi
+from app.models import HocSinh,UserRole, User, LopHoc, Khoi, Hocky, Monhoc
 from datetime import datetime
 admin = Admin(app=app, name='Tiếp nhận Học Sinh', template_mode='bootstrap4')
 
@@ -26,8 +26,21 @@ class MyStudent(StudentAdmin):
 class LopHocView(ModelView):
     column_list = ('ID_lophoc','TenLop','id_khoi','hocsinhs','soluong')
     form_columns = ('TenLop','id_khoi','soluong')
+class MHview(ModelView):
+    column_list = ('id', 'name', 'Bangdiems')
+class KhoiView(ModelView):
+    column_list = ('id', 'ten', 'lops', 'monhocs')
+class UserView(ModelView):
+    column_list = ('id', 'name', 'username', 'password', 'user_role', 'lops')
+    form_columns =( 'name', 'username', 'password', 'user_role', 'lops')
+
+
+
 admin.add_view(MyStudent(HocSinh, db.session))
-admin.add_view(ModelView(User, db.session))
+admin.add_view(UserView(User, db.session))
 admin.add_view(LopHocView(LopHoc, db.session))
-admin.add_view(ModelView(Khoi, db.session))
+admin.add_view(KhoiView(Khoi, db.session))
+admin.add_view(ModelView(Hocky, db.session))
+admin.add_view(MHview(Monhoc, db.session))
+
 

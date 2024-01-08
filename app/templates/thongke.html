@@ -1,7 +1,73 @@
 {% extends 'layout/base.html' %}
 
-{% block title %}Thong ke{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-<h1 style="color:red">Day la thong ke</h1>
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        {% if data %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="text-dark">Số thứ tự</th>
+                    <th class="text-dark">Tên lớp</th>
+                    <th class="text-dark">Môn học</th>
+                    <th class="text-dark">Sỉ số</th>
+                    <th class="text-dark">Học Kỳ</th>
+                    <th class="text-dark">Số lượng đạt</th>
+                    <th class="text-dark">Tỷ lệ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td class="text-dark">{{ item.stt }}</td>
+                    <td class="text-dark">{{ item.id_khoi }} / {{ item.ten_lop }}</td>
+                    <td class="text-dark">{{ item.ten_mon }}</td>
+                    <td class="text-dark">{{ item.si_so }}</td>
+                    <td class="text-dark">{{ item.hoc_ky }}</td>
+                    <td class="text-dark">{{ item.so_bai_dat }}</td>
+                    <td class="text-dark">{{ item.ty_le_dat }} %</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color:red">Không có dữ liệu</p>
+        {% endif %}
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <canvas id="barChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('barChart').getContext('2d');
+        var barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for item in data %}"{{ item.ten_lop }}/{{ item.ten_mon }}",{% endfor %}],
+                datasets: [{
+                    label: 'Tỷ lệ đạt (%)',
+                    data: [{% for item in data %}{{ item.ty_le_dat }},{% endfor %}],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    });
+</script>
+
 {% endblock %}

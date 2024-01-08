@@ -1,7 +1,55 @@
 {% extends 'layout/base.html' %}
 
-{% block title %}Diem{% endblock %}
+{% block title %}NHap Diem Lop hoc{% endblock %}
 
 {% block content %}
-<h1>Day la trang diem</h1>
+<form method="post" action={{url_for('diem')}} style="background-color: pink;color:black">
+    <h1 style="color:Orange; text-align:text-center"> {{current_user.name }}</h1>
+    <h1 style="color:Orange"> Nhập và Xuất Điểm</h1>
+    {% if lops %}
+    {% for hocky in range(1, 3) %}
+    <p style="color:black" class="text-center"> Nhập điểm học kỳ {{ hocky }}</p>
+    <ul>
+        {% for lop in lops %}
+        <h4 style="color:red">danh sach {{ lop.id_khoi }} / {{ lop.TenLop }} </h4>
+        {% for monhoc in lop.khoi.monhocs %}
+        <h1 style="color:red"> Nhập điểm môn học: {{monhoc.name.upper()}} </h1>
+        <table class="table">
+            <tr>
+                <th>Họ và tên</th>
+                <th>Điểm 15p</th>
+                <th>Điểm 45p</th>
+                <th>Điểm cuối kì</th>
+            </tr>
+            {% for hocsinh in lop.hocsinhs %}
+            <tr>
+                <td style="color:black">{{ hocsinh.ten }}</td>
+                <td>
+                    <input style="background-color: black; color: white;" min="0.0" max="10.0" type="numberList"
+                           name="diem15p_{{ hocsinh.id }}_{{ monhoc.id }}_{{ hocky }}">
+                </td>
+                <td>
+                    <input style="background-color: black; color: white;" min="0.0" max="10.0" type="numberList"
+                           name="diem45p_{{ hocsinh.id }}_{{ monhoc.id }}_{{ hocky }}">
+                </td>
+                <td>
+                    <input style="background-color: black; color: white;" min="0.0" max="10.0" type="number"
+                           name="diemck_{{ hocsinh.id }}_{{ monhoc.id }}_{{ hocky }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br><br><br>
+        {% endfor %}
+        <hr>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    {% else %}
+    <h1 style="color:red"> chua co nhiem vu </h1>
+    {% endif %}
+
+    <input style="color: black; text-decoration: none; display: inline-block; padding: 10px 20px; background-color: red; border-radius: 5px; cursor: pointer;"
+           type="submit" value="Nhập điểm" class="btn btn-danger">
+</form>
 {% endblock %}

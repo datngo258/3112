@@ -11,7 +11,12 @@ class UserRole(UserEnum):
     giaovien = 1
     quantri = 2
     nhanvien = 3
+User_LopHoc = db.Table('User_LopHoc',
+                       Column('id_user', Integer, ForeignKey('user.id'), nullable=True),
+                       Column('id_LopHoc', Integer, ForeignKey('LopHoc.ID_lophoc'), nullable=True)
+                       )
 class User(db.Model, UserMixin):
+    __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(50), nullable=False, unique=True)
     username = Column(String(50), nullable=False, unique=True)
@@ -19,6 +24,7 @@ class User(db.Model, UserMixin):
     user_role = Column(Enum(UserRole), default=UserRole.giaovien)
     active = Column(BOOLEAN, default=True)
     joined_date = Column(DateTime, default=datetime.now())
+    lops = relationship('LopHoc', secondary=User_LopHoc, backref='user', lazy=True   )
 
 class HocSinh(db.Model):
     __tablename__ = 'Student'
@@ -41,20 +47,21 @@ class LopHoc(db.Model):
     id_khoi = Column(Integer, ForeignKey('khoi.id'), nullable=False)
 
     def __str__(self):
-        return self.TenLop
+        return str(self.id_khoi) + "/" + self.TenLop + "----" + str(self.ID_lophoc)
+khoi_monhoc = db.Table('khoi_monhoc',
+                       Column('id_khoi', Integer, ForeignKey('khoi.id'), nullable=True),
+                       Column('id_mon', Integer, ForeignKey('monhoc.id'), nullable=True)
+                       )
+
 class Khoi(db.Model):
     __tablename__ = 'khoi'
     id = Column(Integer, primary_key=True, autoincrement=True)
     ten = Column(String(50), nullable=False)
     lops = relationship('LopHoc', backref='khoi', lazy=True)
+    monhocs = relationship('Monhoc', secondary= khoi_monhoc , backref='khoi', lazy=True)
 
     def __str__(self):
         return self.ten
-
-
-
-
-
 class Monhoc(db.Model):
     __tablename__ = 'monhoc'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -69,30 +76,24 @@ class Hocky(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(10), nullable=False)
     # HK1_23
+    namhoc = Column(Integer)
     bangdiems = relationship('Bangdiem', backref='hocky', lazy=True)
     def __str__(self):
-        return self.name
+        return self.name +'/' + self.namhoc
 
 
 class Bangdiem(db.Model):
+    __tablename__ = 'bangdiem'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    ds_diemthanhphan = relationship('Diemthanhphan', backref='score_board', lazy=True)
-    id_hocsinh = Column(Integer, ForeignKey(HocSinh.id), nullable=False)
+    id_lophoc = Column(Integer, ForeignKey(LopHoc.ID_lophoc), nullable=False)
     id_monhoc = Column(Integer, ForeignKey(Monhoc.id), nullable=False)
     id_hocky = Column(Integer, ForeignKey(Hocky.id), nullable=False)
+    id_hocsinh = Column(Integer, ForeignKey(HocSinh.id), nullable=False)
+    diem_15phut = Column(Float)
+    diem_1tiet = Column(Float)
+    diem_ck = Column(Float)
+    diem_trung_binh_mon = Column(Float)
 
-    def __str__(self):
-        return self.id_hocsinh + "-" + self.id_monhoc
-
-
-class Diemthanhphan(db.Model):
-    __tablename__ = 'diemthanhphan'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    value = Column(Float)
-    name = Column(String(20), nullable=False)
-    id_bangdiem = Column(Integer, ForeignKey(Bangdiem.id))
-    def __str__(self):
-        return self.id_bangdiem + "." + self.name
 
 
 if __name__ == '__main__':

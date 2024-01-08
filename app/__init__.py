@@ -21,4 +21,3 @@ app.config['mintuoi']=15
 db = SQLAlchemy(app=app)
 login = LoginManager()
 login.init_app(app)
-

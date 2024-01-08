@@ -1,0 +1,33 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Xuat Diem{% endblock %}
+
+{% block content %}
+<h1 style="color:Orange; text-align:text-center">Xuat Diem</h1>
+
+
+
+{% if data %}
+<table style="color:black" class="table">
+    <tr >
+        <th style="color:black">Tên Học Sinh</th>
+        <th style="color:black">Lớp</th>
+        <th style="color:black">Môn Học</th>
+        <th style="color:black"> Điểm Trung Bình Học Kỳ 1</th>
+        <th style="color:black">Điểm Trung Bình Học Kỳ 2</th>
+    </tr>
+    {% for item in data %}
+    <tr>
+        <td style="color:black">{{ item.ten_hocsinh }}</td>
+        <td style="color:black"> {{ item.lop }}</td>
+        <td style="color:black"> {{ item.mon_hoc }}</td>
+        <td style="color:black">{{ item.diem_tb_hk1 }}</td>
+        <td style="color:black">{{ item.diem_tb_hk2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<h3 style="color:red">Không có dữ liệu để xuất</h3>
+{% endif %}
+
+{% endblock %}

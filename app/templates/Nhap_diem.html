@@ -1,0 +1,18 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Nhập điểm cho lớp {% endblock %}
+<h1 style="color:red"> Nhập điểm cho lớp {{ lop.khoi.ten }} /{{ lop.TenLop }}/{{monhoc.name}}</h1>
+<form method="post" action={{url_for('tao_mon_hoc')}} style="background-color: pink;color:black">
+    <div class="form-group">
+        <label for="name">
+            Tên môn học
+        </label>
+        <input type="number" class="form-control" id="name" name="tenmonhoc" required>
+    </div>
+
+    <br>
+    <input type="submit" value="Tạo" class="btn btn-danger">
+    <br><br>
+</form>
+
+{% endblock %}
